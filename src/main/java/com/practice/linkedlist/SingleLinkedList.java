@@ -1,5 +1,8 @@
 package com.practice.linkedlist;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SingleLinkedList {
 
 	Node headNode = null;
@@ -13,6 +16,15 @@ public class SingleLinkedList {
 		SingleLinkedList.insertData(linkedList, 5);
 		SingleLinkedList.insertData(linkedList, 6);
 		SingleLinkedList.insertData(linkedList, 7);
+		SingleLinkedList linkedListLoop = new SingleLinkedList();
+		createDataWithLoop(linkedListLoop, 1);
+		createDataWithLoop(linkedListLoop, 2);
+		createDataWithLoop(linkedListLoop, 3);
+		createDataWithLoop(linkedListLoop, 4);
+		createDataWithLoop(linkedListLoop, 5);
+		createDataWithLoop(linkedListLoop, 6);
+		createDataWithLoop(linkedListLoop, 7);
+		SingleLinkedList.detectLoopInTheLinkedList(linkedListLoop);
 	}
 
 	// Node creation for linkedlist
@@ -211,6 +223,55 @@ public class SingleLinkedList {
 			return countNumberOfTimesIntOccured(linkedList, node.next, val) + ((node.data == val) ? 1 : 0);
 		}
 		return 0;
+
+	}
+
+	public static SingleLinkedList createDataWithLoop(SingleLinkedList linkedList, int data) {
+		Node temp = null;
+		Node loopNode = null;
+		int vcnt = 0;
+		if (linkedList.headNode == null) {
+			linkedList.headNode = new Node(data);
+			vcnt++;
+		} else {
+			temp = linkedList.headNode;
+			while (temp.next != null) {
+				temp = temp.next;
+				vcnt++;
+				if (vcnt == 3) {
+					loopNode = temp;
+				}
+			}
+			temp.next = new Node(data);
+		}
+		if (data == 7) {
+			temp.next = loopNode;
+		}
+
+		return linkedList;
+
+	}
+
+	// Detect loop in the linkedlist
+	public static void detectLoopInTheLinkedList(SingleLinkedList linkedList) {
+
+		Node startingNode = linkedList.headNode;
+		Map<Node, Integer> nodeCnt = new HashMap<SingleLinkedList.Node, Integer>();
+		boolean loopExists = false;
+		while (startingNode != null) {
+			nodeCnt.put(startingNode, 1);
+			startingNode = startingNode.next;
+			if (nodeCnt.containsKey(startingNode)) {
+				loopExists = true;
+				break;
+			}
+
+		}
+		if (loopExists) {
+			System.out.println("Loop Exists");
+		} else {
+			System.out.println("Loop does not Exists");
+		}
 
 	}
 
