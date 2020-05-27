@@ -1,6 +1,6 @@
 package com.practice.linkedlist;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SingleLinkedList {
@@ -16,15 +16,7 @@ public class SingleLinkedList {
 		SingleLinkedList.insertData(linkedList, 5);
 		SingleLinkedList.insertData(linkedList, 6);
 		SingleLinkedList.insertData(linkedList, 7);
-		SingleLinkedList linkedListLoop = new SingleLinkedList();
-		createDataWithLoop(linkedListLoop, 1);
-		createDataWithLoop(linkedListLoop, 2);
-		createDataWithLoop(linkedListLoop, 3);
-		createDataWithLoop(linkedListLoop, 4);
-		createDataWithLoop(linkedListLoop, 5);
-		createDataWithLoop(linkedListLoop, 6);
-		createDataWithLoop(linkedListLoop, 7);
-		SingleLinkedList.detectLoopInTheLinkedList(linkedListLoop);
+		moveLastElementToFront(linkedList);
 	}
 
 	// Node creation for linkedlist
@@ -245,7 +237,7 @@ public class SingleLinkedList {
 			temp.next = new Node(data);
 		}
 		if (data == 7) {
-			temp.next = loopNode;
+			temp.next.next = loopNode;
 		}
 
 		return linkedList;
@@ -256,13 +248,14 @@ public class SingleLinkedList {
 	public static void detectLoopInTheLinkedList(SingleLinkedList linkedList) {
 
 		Node startingNode = linkedList.headNode;
-		Map<Node, Integer> nodeCnt = new HashMap<SingleLinkedList.Node, Integer>();
+		Map<Node, Integer> nodeCnt = new LinkedHashMap<SingleLinkedList.Node, Integer>();
 		boolean loopExists = false;
 		while (startingNode != null) {
 			nodeCnt.put(startingNode, 1);
 			startingNode = startingNode.next;
 			if (nodeCnt.containsKey(startingNode)) {
 				loopExists = true;
+				System.out.println(lengthOfLoop(nodeCnt, startingNode));
 				break;
 			}
 
@@ -273,6 +266,172 @@ public class SingleLinkedList {
 			System.out.println("Loop does not Exists");
 		}
 
+	}
+	// Length of the loop
+
+	public static int lengthOfLoop(Map<Node, Integer> nodeCnt, Node nextNode) {
+		int cnt = 0;
+		boolean falg = false;
+		for (Node tempNode : nodeCnt.keySet()) {
+			if (tempNode == nextNode || falg) {
+				cnt++;
+				falg = true;
+			}
+		}
+		return cnt;
+	}
+
+	// to check whether list is palindrome or not (Ex : POP,AKA
+
+	public static void palindromeCheck(SingleLinkedList linkedList) {
+		int length = lengthOfLinkedListIterative(linkedList);
+		int starting = 0;
+		int end = length - 1;
+		boolean flag = true;
+		while (starting < end) {
+			if (getNodeAtGivenPos(linkedList, starting) != getNodeAtGivenPos(linkedList, end)) {
+				flag = false;
+				break;
+			}
+			starting++;
+			end--;
+		}
+		if (flag) {
+			System.out.println("Given list is palindrome");
+		} else {
+			System.out.println("It is not an palindrome");
+		}
+	}
+
+	// Remove duplicates from sorted list
+	public static void removeDuplicatesInSortedList(SingleLinkedList linkedList) {
+		Node temp = linkedList.headNode;
+		while (temp.next != null) {
+			if (temp.data == temp.next.data) {
+				temp.next = temp.next.next;
+			} else {
+				temp = temp.next;
+			}
+		}
+		printLinkedList(linkedList);
+
+	}
+
+	// Remove duplicates from unsortedlist
+	public static void removeDuplicatesUnSortedList(SingleLinkedList linkedList) {
+		Node temp = linkedList.headNode;
+		Map<Integer, Integer> cntMap = new LinkedHashMap<>();
+		cntMap.put(temp.data, 1);
+
+		while (temp.next != null) {
+
+			if (cntMap.containsKey(temp.next.data)) {
+				temp.next = temp.next.next;
+			} else {
+				cntMap.put(temp.next.data, 1);
+				temp = temp.next;
+			}
+		}
+		printLinkedList(linkedList);
+
+	}
+
+	// Swap nodes in linkedlist with out swaping the data
+
+	public static void swapListWithoutData(SingleLinkedList linkedList, int x, int y) {
+		Node xPrevNode = null;
+		Node xNextNode = null;
+		Node yPrevNode = null;
+		Node yNextNode = null;
+		Node xCurrNode = null;
+		Node yCurrNode = null;
+		Node temp = linkedList.headNode;
+		if (temp.data == x) {
+			xCurrNode = temp;
+			xNextNode = temp.next;
+		}
+		if (temp.data == y) {
+			yCurrNode = temp;
+			yNextNode = temp.next;
+		}
+		while (temp.next != null) {
+			if (temp.next.data == x) {
+				xCurrNode = temp.next;
+				xNextNode = temp.next.next;
+				xPrevNode = temp;
+			}
+			if (temp.next.data == y) {
+				yCurrNode = temp.next;
+				yNextNode = temp.next.next;
+				yPrevNode = temp;
+			}
+			temp = temp.next;
+		}
+
+		if (xPrevNode == null) {
+			yCurrNode.next = xNextNode;
+			linkedList.headNode = yCurrNode;
+			xCurrNode.next = yNextNode;
+			yPrevNode.next = xCurrNode;
+		} else if (yPrevNode == null) {
+			xCurrNode.next = yNextNode;
+			linkedList.headNode = xCurrNode;
+			yCurrNode.next = xNextNode;
+			xPrevNode.next = yCurrNode;
+		} else {
+			xCurrNode.next = yNextNode;
+			yPrevNode.next = xCurrNode;
+			yCurrNode.next = xNextNode;
+			xPrevNode.next = yCurrNode;
+		}
+
+		printLinkedList(linkedList);
+
+	}
+
+	// Pairwise swappning in linkedlist
+
+	public static void pairWiseSwapping(SingleLinkedList linkedList) {
+		Node temp = linkedList.headNode;
+		Node prevPrviousNode = null;
+		boolean isHead = true;
+		while (temp != null && temp.next != null) {
+			Node prevNode = temp;
+			Node curretNode = temp.next;
+			Node curretTempNode = temp.next.next;
+			Node nextNode = temp.next.next;
+			if (isHead) {
+				prevNode.next = nextNode;
+				curretNode.next = prevNode;
+				linkedList.headNode = curretNode;
+				isHead = false;
+			} else {
+				prevNode.next = nextNode;
+				curretNode.next = prevNode;
+				prevPrviousNode.next = curretNode;
+			}
+			prevPrviousNode = prevNode;
+			temp = curretTempNode;
+		}
+		printLinkedList(linkedList);
+	}
+
+	// Move last element to front
+	public static void moveLastElementToFront(SingleLinkedList linkedList) {
+		Node temp = linkedList.headNode;
+		Node headNode = linkedList.headNode;
+		Node prevNode = null;
+		while (temp.next != null) {
+			prevNode = temp;
+			temp = temp.next;
+		}
+		temp.next = headNode.next;
+		linkedList.headNode = temp;
+
+		headNode.next = null;
+		prevNode.next = headNode;
+
+		printLinkedList(linkedList);
 	}
 
 }
