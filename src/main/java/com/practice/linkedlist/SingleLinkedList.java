@@ -4,6 +4,32 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SingleLinkedList {
+	
+	// Linked List
+	// Insertion
+	// List Deletion (Deleting a given key)
+	// Linked List
+	// Deletion (Deleting a key at given position)
+	// Write a function to delete a Linked List
+	// Find Length of a
+	// Linked List (Iterative and Recursive)
+	// Search an element in a Linked
+	// List (Iterative and Recursive)
+	// Write a function to get Nth node in a Linked List
+	// Nth node from the end of a Linked List
+	// Print the middle of a given linked list
+	// Write a function that counts the number of times a given int occurs in a
+	// Linked List
+	// Detect loop in a linked list
+	// Find length of loop in linked list
+	// Function to check if a singly linked list is palindrome
+	// Remove duplicates from a sorted linked list
+	// Remove duplicates from an unsorted linked list
+	// Swap nodes in a linked list without swapping data
+	// Pairwise swap elements of a given linked list
+	// Move last element to front of a given Linked List
+	// Intersection of two Sorted Linked Lists
+	// Intersection point of two Linked Lists.
 
 	Node headNode = null;
 
@@ -467,7 +493,7 @@ public class SingleLinkedList {
 		printLinkedList(result);
 	}
 
-	//Merging point of two linkedlists
+	// Merging point of two linkedlists
 	public static int startInterSectionOfMergedLists(SingleLinkedList linkedList1, SingleLinkedList linkedLsit2) {
 
 		Node temp = linkedList1.headNode;
