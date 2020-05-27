@@ -16,7 +16,6 @@ public class SingleLinkedList {
 		SingleLinkedList.insertData(linkedList, 5);
 		SingleLinkedList.insertData(linkedList, 6);
 		SingleLinkedList.insertData(linkedList, 7);
-		moveLastElementToFront(linkedList);
 	}
 
 	// Node creation for linkedlist
@@ -432,6 +431,40 @@ public class SingleLinkedList {
 		prevNode.next = headNode;
 
 		printLinkedList(linkedList);
+	}
+
+	// Intersection of two linked-lists
+	public static void intersecOfSortedLinkedLists(SingleLinkedList linkedList1, SingleLinkedList linkedLsit2) {
+		Node firstListNode = linkedList1.headNode;
+		Node secListNode = linkedLsit2.headNode;
+		SingleLinkedList result = new SingleLinkedList();
+		int cnt = 0;
+		while (firstListNode != null && secListNode != null) {
+			if (firstListNode.data == secListNode.data) {
+				if (cnt == 0) {
+					result.headNode = new Node(firstListNode.data);
+					cnt++;
+				} else {
+					Node temp = result.headNode;
+					while (temp.next != null) {
+						temp = temp.next;
+					}
+
+					temp.next = new Node(firstListNode.data);
+				}
+
+				firstListNode = firstListNode.next;
+				secListNode = secListNode.next;
+			} else {
+				if (firstListNode.data < secListNode.data) {
+					firstListNode = firstListNode.next;
+				} else {
+					secListNode = secListNode.next;
+				}
+			}
+		}
+
+		printLinkedList(result);
 	}
 
 }
