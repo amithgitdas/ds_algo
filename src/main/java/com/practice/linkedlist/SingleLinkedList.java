@@ -467,4 +467,30 @@ public class SingleLinkedList {
 		printLinkedList(result);
 	}
 
+	//Merging point of two linkedlists
+	public static int startInterSectionOfMergedLists(SingleLinkedList linkedList1, SingleLinkedList linkedLsit2) {
+
+		Node temp = linkedList1.headNode;
+		Map<Node, Node> cntMap = new LinkedHashMap<>();
+
+		while (temp != null) {
+
+			if (!cntMap.containsKey(temp)) {
+				cntMap.put(temp, temp.next);
+			}
+			temp = temp.next;
+		}
+
+		Node temp2 = linkedLsit2.headNode;
+		while (temp2 != null) {
+
+			if (cntMap.containsKey(temp2)) {
+				return temp2.data;
+			}
+			temp2 = temp2.next;
+		}
+		return 0;
+
+	}
+
 }
